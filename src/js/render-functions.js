@@ -1,24 +1,18 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-export function renderGallery(images) {
+export const renderGallery = (images) => {
   const gallery = document.querySelector('.gallery');
-  gallery.innerHTML = images
-    .map(
-      image => `
-        <a href="${image.largeImageURL}" class="gallery-item">
-            <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy"/>
-            <div class="info">
-                <p>👍 ${image.likes}</p>
-                <p>👁 ${image.views}</p>
-                <p>💬 ${image.comments}</p>
-                <p>⬇️ ${image.downloads}</p>
-            </div>
-        </a>
-    `
-    )
-    .join('');
-
-  const lightbox = new SimpleLightbox('.gallery a');
-  lightbox.refresh();
-}
+  const markup = images.map(image => `
+    <li class="gallery-item">
+      <img src="${image.webformatURL}" alt="${image.tags}" />
+      <div class="info">
+        <p>Likes: ${image.likes}</p>
+        <p>Views: ${image.views}</p>
+        <p>Comments: ${image.comments}</p>
+        <p>Downloads: ${image.downloads}</p>
+      </div>
+    </li>
+  `).join('');
+  gallery.insertAdjacentHTML('beforeend', markup);
+};
